@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "nodemon --exec babel-node app.js",
     "test": "mocha --require @babel/register test/test.js",
-    "testc": "nyc report  --report lcovonly",
+    "testa": "nyc --reporter=html --reporter=text mocha --require @babel/register test/test.js",
+    "testb": "nyc report  --report lcovonly",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --require  @babel/register test/test.js",
-    "testb":"nyc  mocha --require @babel/register test/test "
+    "testc":"nyc  mocha --require @babel/register test/test "
   },
   "repository": {
     "type": "git",
