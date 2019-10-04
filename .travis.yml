@@ -1,11 +1,20 @@
 language: node_js
 node_js:
  - "stable"
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=e4ec6b4505d0e711cc087606820f56f65a0e82d361e603052622bdab53971639
+
 addons:
-    code_climate:
-        repo_token: <supersecrettoken>
-script: istanbul cover node_modules/mocha/bin/_mocha -- -R spec
+  code_climate:
+    repo_token: e4ec6b4505d0e711cc087606820f56f65a0e82d361e603052622bdab53971639
+
 before_script:
-  - npm install codeclimate-test-reporter istanbul -g
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - npm run testa
 after_script:
-  - codeclimate-test-reporter < ./coverage/lcov.info
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
