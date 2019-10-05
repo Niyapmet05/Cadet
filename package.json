@@ -8,8 +8,10 @@
     "test": "mocha --require @babel/register test/test.js",
     "testa": "nyc --reporter=html --reporter=text mocha --require @babel/register test/test.js",
     "testb": "nyc report  --report lcovonly",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- --require  @babel/register test/test.js",
-    "testc":"nyc  mocha --require @babel/register test/test "
+    "testc": "nyc  mocha --require @babel/register test/test ",
+    "coverage": "npm run testa && nyc report --reporter=text-lcov | coveralls",
+    "cover": "set NODE_ENV=testa&& istanbul cover ./node_modules/mocha/bin/_mocha -- --require @babel/register test/test.js",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -36,6 +38,7 @@
     "chai-http": "^4.3.0",
     "istanbul": "^0.4.5",
     "mocha": "^6.2.1",
+    "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^14.1.1"
   }
 }
