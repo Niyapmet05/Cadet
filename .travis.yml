@@ -8,7 +8,7 @@ env:
 
 addons:
   code_climate:
-    repo_token: VeWM-5HFHSpIdy15_5Jfhg
+    repo_token: n2lH5Rr56092SKI8LQ4a35PuFnzOV9CrW
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
