@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import freem from '../controller/appController.js';
+import freem from '../controller/userController.js';
 const routes = Router();
-routes.get('/', freem.signUp);
+routes.post('/', freem.signUp);
 export default routes;
