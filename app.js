@@ -1,19 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { Router } from 'express';
-
-const router = Router();
-
+import routes from './routes/index.js';
 const app = express();
 
 app.use(bodyParser.json());
-
-app.get('/',(req,res) => {
-   return res.status(200).json({
-       success: "true",
-       message:"Hello Aphrodis! This is the start"
-   })
-})
+app.use('/', routes);
 
 app.listen(4000,() => {
     console.log(`app is listening to port 4000`);
