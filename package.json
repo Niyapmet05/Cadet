@@ -9,8 +9,8 @@
     "testa": "nyc --reporter=html --reporter=text mocha --require @babel/register test/test.js",
     "testb": "nyc report  --report lcovonly",
     "testc": "nyc  mocha --require @babel/register test/test ",
-    "coverage": "npm run testa && nyc report --reporter=text-lcov | coveralls",
-    "cover": "set NODE_ENV=testa&& istanbul cover ./node_modules/mocha/bin/_mocha -- --require @babel/register test/test.js",
+    "coverage": "npm run testb && nyc report --reporter=text-lcov | coveralls",
+    "cover": "set NODE_ENV=testa && istanbul cover ./node_modules/mocha/bin/_mocha -- --require @babel/register test/test.js",
     "test": "jest",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
