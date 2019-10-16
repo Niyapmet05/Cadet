@@ -11,48 +11,48 @@ class freem {
     
         //forbidding important fields to be empty
         if(!bod.firstName) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: 'false',
                 message: 'FirstName cannot be empty'
             });
         } else if(!bod.lastName) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: 'false',
                 message: 'Last name cannot be empty'
             });
 
         }else if(!bod.email) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: 'false',
                 message: 'Email cannot be empty'
             });
 
         }else if(!bod.password) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: 'false',
                 message: 'Password cannot be empty'
             });
 
         }else if(!bod.address) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: 'false',
                 message: 'Address cannot be empty'
             });
 
         }else if(!bod.bio) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: 'false',
                 message: 'Bio cannot be empty'
             });
 
         }else if(!bod.occupation) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: 'false',
                 message: 'Occupation cannot be empty'
             });
     
         }else if(!bod.expertise) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: 'false',
                 message: 'Expertise cannot be empty'
             });
@@ -109,14 +109,46 @@ class freem {
                     occupation:data.occupation,
                     bio:data.bio
                 }
-        
             })
         //end of signUp
         }
-
     }
-        
 
+    //Login a user
+   static login( req, res) {
+
+    //email and password as mandatory
+    if (!req.body.email) {
+      res.status(400).json({
+        status: '400',
+        message: 'Email is mandatory',
+      });
+    } else if (!req.body.password) {
+      res.status(400).json({
+        status: '400',
+        message: 'password is mandatory',
+      });
+    } else {
+      //verfying if email and password match
+      const matchvalues = dammy.find(Users => Users.email === req.body.email && Users.password === req.body.password);
+        if (matchvalues) {
+          //defining token
+          const token = jwt.sign({ email: req.body.email, password: req.body.password }, process.env.KEY, {
+            expiresIn: 86400, // expires in 24 hours
+          });
+          res.status(200).json({
+            status: '200',
+            message: 'User is successful login',
+            data: {token},
+          });
+        }else{
+            res.status(404).json({
+                status: '404',
+                message: 'Email and password does not match',
+              });
+        }
+      }
+    }
 }
 
 export default freem;

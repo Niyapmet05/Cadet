@@ -6,12 +6,14 @@ import app from '../app';
 chai.use(chaiHttp);
 chai.should();
 
+//sign up
 describe('Testing sign up function', () => {
+  //Registered user (email)
   it('Status should be 409 for existing user', (done) => {
     
     chai.request(app)
     
-    .post(`/`)
+    .post(`/auth/signup`)
     .send( {
       "firstName": "Aphrodis",
       "lastName": "NIYOMURENGEZI",
@@ -29,12 +31,12 @@ describe('Testing sign up function', () => {
     });
   });
 
-
+  //New user (new email)
   it('Status should be 200 for non existing user', (done) => {
     
     chai.request(app)
     
-    .post(`/`)
+    .post(`/auth/signup`)
     .send( {
       "firstName": "Caudine",
       "lastName": "UWIDUHAYE",
@@ -52,13 +54,12 @@ describe('Testing sign up function', () => {
     });
   });
 
-  
-
-  it('Status should be 404 for empty field', (done) => {
+  //empty field
+  it('Status should be 400 for empty field', (done) => {
     
     chai.request(app)
     
-    .post(`/`)
+    .post(`/auth/signup`)
     .send( {
       "firstName": "",
       "lastName": "",
@@ -70,12 +71,66 @@ describe('Testing sign up function', () => {
       "expertise": ""
     })
     .end((err, res) => {
+      res.should.have.status(400);
+
+      done();
+    });
+  });
+
+});
+
+
+//Login
+describe('Testing sign in function', () => {
+  //Correct email and password
+  it('Status should be 200 for matching email and password', (done) => {
+    
+    chai.request(app)
+    
+    .post(`/auth/signin`)
+    .send( {
+      "email": "niyomurengeziaphrodis@gmail.com",
+      "password": "12345"
+    })
+    .end((err, res) => {
+      res.should.have.status(200);
+
+      done();
+    });
+  });
+
+   //inCorrect email and password
+   it('Status should be 404 for mismatching email and password', (done) => {
+    
+    chai.request(app)
+    
+    .post(`/auth/signin`)
+    .send( {
+      "email": "niyomurengeziaphrodis@gmail.com",
+      "password": "1234"
+    })
+    .end((err, res) => {
       res.should.have.status(404);
 
       done();
     });
   });
 
+  //empty field
+  it('Status should be 400 for empty field', (done) => {
+    
+    chai.request(app)
+    
+    .post(`/auth/signin`)
+    .send( {
+      "email": "",
+      "password": "",
+    })
+    .end((err, res) => {
+      res.should.have.status(400);
 
+      done();
+    });
+  });
 
-});
+})
