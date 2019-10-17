@@ -134,3 +134,46 @@ describe('Testing sign in function', () => {
   });
 
 })
+
+
+//Changer a user to a mentor
+describe('Testing changeToMentor function', () => {
+  //user role is mentee
+  it('Status should be 201 for user is a mentee', (done) => {
+    
+    chai.request(app)
+    
+    .patch(`/user/3`)
+    .end((err, res) => {
+      res.should.have.status(201);
+
+      done();
+    });
+  });
+  //user role is not a mentee
+  it('Status should be 409 for user is not a mentee', (done) => {
+    
+    chai.request(app)
+    
+    .patch(`/user/2`)
+    .end((err, res) => {
+      res.should.have.status(409);
+
+      done();
+    });
+  });
+  
+  //user role is not found
+  it('Status should be 404 for user is not found', (done) => {
+    
+    chai.request(app)
+    
+    .patch(`/user/4`)
+    .end((err, res) => {
+      res.should.have.status(404);
+
+      done();
+    });
+  });
+  
+})

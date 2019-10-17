@@ -149,6 +149,57 @@ class freem {
         }
       }
     }
+
+    //Change a user to a mentor.
+    static changeToMentor( req, res){
+    //   UserController.admin(req, res);
+      const id = parseInt(req.params.userId, 10);
+      let dataFound;
+      let itemIndex;
+      dammy.map((data, index) => {
+        if (data.id === id) {
+          dataFound = data;
+          itemIndex = index;
+        }
+      });
+  
+      if (!dataFound) {
+        return res.status(404).json({
+          success: 'false',
+          message: 'user not found',
+        });
+  
+      }else  if (dataFound.role!=="mentee"){
+        return res.status(409).json({
+          success: 'false',
+          message: 'You cannot change its role',
+  
+        });
+      }
+  
+      const data = {
+        id: id,
+        lastName: dataFound.lastName,
+        firstName: dataFound.firstName,
+        email:  dataFound.email,
+        address: dataFound.address,
+        bio: dataFound.bio,
+        occupation: dataFound.occupation,
+        expertise: dataFound.expertise,
+        role: "mentor"
+      };
+  
+      dammy.splice(itemIndex, 1, data);
+  
+      return res.status(201).json({
+        status: 201,
+        message: 'User account changed to mentor',
+        id : data.id,
+        role : data.role
+      });
+    };
+
+
 }
 
 export default freem;
