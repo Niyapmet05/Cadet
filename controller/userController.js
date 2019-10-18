@@ -199,6 +199,35 @@ class freem {
       });
     };
 
+    //get all mentors
+    static  getAllMentors(req, res) {
+      const mentors=[]; let mentorId;
+      dammy.forEach((user) => {
+        if (user.role === "mentor") {
+            user.mentorId = user.id;
+            mentors.push(user);
+        }
+      })
+      res.status(200).json({
+        status: '200',
+        data:mentors
+      });
+    }
+
+    //get all users
+   static  getAllUsers(req, res) {
+    try {
+      res.status(200).json({
+        status: 200,
+        data: dammy
+      });
+    }catch (error) {
+       console.log(error);
+    }
+   }
+
+
+
 
 }
 

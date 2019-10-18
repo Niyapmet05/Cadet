@@ -175,5 +175,36 @@ describe('Testing changeToMentor function', () => {
       done();
     });
   });
-  
+
+})
+
+
+//Get all mentor
+describe('Testing getAllMentors function', () => {
+  it('Status should be 200 for displaying mentors', (done) => {
+    
+    chai.request(app)
+    
+    .get(`/mentors`)
+    .end((err, res) => {
+      res.should.have.status(200);
+
+      done();
+    });
+  });
+})
+
+//Get all users
+describe('Testing getAllUsers function', () => {
+  it('Status should be 200 for displaying users', (done) => {
+    
+    chai.request(app)
+    
+    .get(`/users`)
+    .end((err, res) => {
+      res.should.have.status(200);
+
+      done();
+    });
+  });
 })

@@ -5,7 +5,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/Niyapmet05/Cadet/badge.svg?branch=develop)](https://coveralls.io/github/Niyapmet05/Cadet?branch=develop)
 
 # Free mentors developped by Aphrodis for exercising node app
-#Travis test is passing
-#Sign up endpoint
-#Sign in endpoint
-#Change a mentor endpoint
+1) Sign up endpoint
+2) Sign in endpoint
+3) Change a mentor endpoint
+4) Get all mentors endpoint
+5) Get all users endpoint

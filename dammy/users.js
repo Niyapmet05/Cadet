@@ -9,7 +9,7 @@ const users=[
         "bio": "Not shared",
         "occupation": "Developper",
         "expertise": "4 years in clinics",
-        "role" : "admin"
+        "role" : "mentor"
     },
     {
       id: 2,
