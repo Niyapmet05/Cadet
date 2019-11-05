@@ -9,7 +9,8 @@ const users=[
         "bio": "Not shared",
         "occupation": "Developper",
         "expertise": "4 years in clinics",
-        "role" : "mentor"
+        "role" : "mentor",
+        mentorId : 1
     },
     {
       id: 2,
@@ -21,7 +22,8 @@ const users=[
       bio: "engineer",
       occupation: "environmental",
       expertise: "world class",
-      role:"mentor"
+      role:"mentor",
+      mentorId : 2
     },
     { 
       id:3,
@@ -33,7 +35,8 @@ const users=[
       bio: "engineer",
       occupation: "developer",
       expertise: "middle",
-      role:"mentee"
+      role:"mentee",
+      // mentorId : 3
     }
 
 ]
