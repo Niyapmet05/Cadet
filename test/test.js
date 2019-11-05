@@ -1,10 +1,12 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
+import tokena from '../middleware/token';
 
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
+let token = '';
 
 //sign up
 describe('Testing sign up function', () => {
@@ -90,7 +92,8 @@ describe('Testing sign in function', () => {
     .post(`/auth/signin`)
     .send( {
       "email": "niyomurengeziaphrodis@gmail.com",
-      "password": "12345"
+      "password": "12345",
+      "token": "fddssqddf"
     })
     .end((err, res) => {
       res.should.have.status(200);
@@ -144,6 +147,7 @@ describe('Testing changeToMentor function', () => {
     chai.request(app)
     
     .patch(`/user/3`)
+    .set("token", "tokena")
     .end((err, res) => {
       res.should.have.status(201);
 
@@ -156,6 +160,7 @@ describe('Testing changeToMentor function', () => {
     chai.request(app)
     
     .patch(`/user/2`)
+    .set("token", "tokena")
     .end((err, res) => {
       res.should.have.status(409);
 
@@ -169,6 +174,7 @@ describe('Testing changeToMentor function', () => {
     chai.request(app)
     
     .patch(`/user/4`)
+    .set("token", "tokena")
     .end((err, res) => {
       res.should.have.status(404);
 
@@ -186,6 +192,7 @@ describe('Testing getAllMentors function', () => {
     chai.request(app)
     
     .get(`/mentors`)
+    .set("token", "tokena")
     .end((err, res) => {
       res.should.have.status(200);
 
@@ -201,10 +208,47 @@ describe('Testing getAllUsers function', () => {
     chai.request(app)
     
     .get(`/users`)
+    .set("token", token)
     .end((err, res) => {
       res.should.have.status(200);
 
       done();
     });
   });
+})
+
+//creating mentorship session
+describe('Testing acceptMentorship function',()=>{
+  it('status should be 404 for non existing session', (done)=>{
+    chai.request(app)
+    .patch('/sessions/4/accept')
+    // .set('token',token)
+    .end((err,res)=>{
+      res.should.have.status(404)
+
+      done();
+    })
+  })
+
+  it('status should be 404 for a session with responded status', (done)=>{
+    chai.request(app)
+    .patch('/sessions/3/accept')
+    // .set('token',token)
+    .end((err,res)=>{
+      res.should.have.status(404)
+
+      done();
+    })
+  })
+
+  it('status should be 201 for existing session', (done)=>{
+    chai.request(app)
+    .patch('/sessions/1/accept')
+    // .set('token',token)
+    .end((err,res)=>{
+      res.should.have.status(201)
+
+      done();
+    })
+  })
 })

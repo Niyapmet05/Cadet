@@ -1,4 +1,5 @@
 import dammy from '../dammy/users.js';
+import sess from '../dammy/sessions';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
@@ -65,7 +66,8 @@ class freem {
                 password: bod.password,
                 occupation:bod.occupation,
                 address:bod.address,
-                bio:bod.bio
+                bio:bod.bio,
+                role: bod.role
             }
     
             dammy.forEach((val) => {
@@ -152,7 +154,7 @@ class freem {
 
     //Change a user to a mentor.
     static changeToMentor( req, res){
-    //   UserController.admin(req, res);
+    //   freem.admin(req, res);
       const id = parseInt(req.params.userId, 10);
       let dataFound;
       let itemIndex;
@@ -226,9 +228,279 @@ class freem {
     }
    }
 
+   //create a mentorship request session
+   static  createMentoshipReq( req, res) {
+     freem.mentee(req, res);
+     const bod = req.body;
+    //  freem.mentee(req,res)
+ 
+     //forbidding important fields to be empty
+     if(!bod.mentorId) {
+       return res.status(404).json({
+         success: 'false',
+         message: 'mentorId is mandatory'
+       })
+     } else if(!bod.questions) {
+       return res.status(404).json({
+         success: 'false',
+         message: 'questions mandatory'
+ 
+       })
+     }
+       
+       const mentorFound = dammy.find(Mentor=> Mentor.mentorId === bod.mentorId);
+       if (!mentorFound) {
+         return res.status(404).json({
+           success: 'false',
+           message: 'Mentor not found',
+         });
+       }
+       const mentee = dammy.find(mente=>mente.email===req.decodedToken.email);
+       if(!mentee){
+         return res.status(500).json({
+           success: 'false',
+           message : 'Undefined error'
+         })
+       }
+
+       //Defining new session
+       const data = {
+         Id:sess.length+1,
+         mentorId: mentorFound.mentorId,
+         menteeId:mentee.id,
+         questions:bod.questions,
+         menteeEmail:mentee.email,
+         status: "pending",
+       }
+ 
+       sess.push(data); 
+        
+       return res.status(200).json({
+         status:  200,
+         message: 'session created successfully', 
+         data : {
+           sessionId:data.Id,
+           menteeId:data.menteeId,
+           mentorId: data.mentorId,
+           menteeEmail:data.menteeEmail,
+           questions:data.questions,
+           status: data.status,
+         }
+       });
+     };
+
+     /*static mentorship(req,res){
+      freem.mentor(req,res);
+      const id = parseInt(req.params.sessionId,10);
+      let sessionFound;
+      let sessionIndex;
+
+      sess.map((session,index)=>{
+        if(session.sessionId===id){
+          sessionFound = session;
+          sessionIndex = index;
+        }
+      });
+
+      if (!sessionFound) {
+        return res.status(404).json({
+          success: 'false',
+          message: 'session not found',
+        });
+      }
+
+     const mentor = dammy.find(mento=>mento.email===req.decodedToken.email);
+      const mySessions = sess.find(mySess=> mySess.mentorId === mentor.mentorId);
+     //  console.log(mySessions);
+
+      if(!mySessions){
+        return res.status(404).json({
+          success: 'false',
+          message: 'You are not the owner',
+        });
+      }
+
+      if (sessionFound.status!=="pending"){
+      return res.status(404).json({
+        success: 'false',
+        message: 'session was already responded',
+      });
+    }
+
+    const data = {
+      sessionId: id,
+      mentorId: sessionFound.mentorId,
+      menteeId: sessionFound.menteeId,
+      questions: sessionFound.questions,
+      menteeEmail:sessionFound.menteeEmail,
+      status: ""
+    };
+
+    sess.splice(sessionIndex, 1, data);
+    
+    return res.status(201).json({
+      status: 201,
+      message: 'mentorship session request accepted',
+      data
+    });
+
+    }*/
+     
+     static acceptMentorship(req,res){
+      const id = parseInt(req.params.sessionId,10);
+       let sessionFound;
+       let sessionIndex;
+
+       sess.map((session,index)=>{
+         if(session.sessionId===id){
+           sessionFound = session;
+           sessionIndex = index;
+         }
+       });
+
+       if (!sessionFound) {
+         return res.status(404).json({
+           success: 'false',
+           message: 'session not found',
+         });
+       }
+
+      const mentor = dammy.find(mento=>mento.email===req.decodedToken.email);
+       const mySessions = sess.find(mySess=> mySess.mentorId === mentor.mentorId);
+      //  console.log(mySessions);
+
+       if(!mySessions){
+         return res.status(404).json({
+           success: 'false',
+           message: 'You are not the owner',
+         });
+       }
+
+       if (sessionFound.status!=="pending"){
+       return res.status(404).json({
+         success: 'false',
+         message: 'session was already responded',
+       });
+     }
+
+     const data = {
+       sessionId: id,
+       mentorId: sessionFound.mentorId,
+       menteeId: sessionFound.menteeId,
+       questions: sessionFound.questions,
+       menteeEmail:sessionFound.menteeEmail,
+       status: "accept"
+     };
+ 
+     sess.splice(sessionIndex, 1, data);
+
+     return res.status(201).json({
+       status: 201,
+       message: 'mentorship session request accepted',
+       data
+     });
+
+     }
+     
+     static rejectMentorship(req,res){
+       const id = parseInt(req.params.sessionId,10);
+       let sessionFound;
+       let sessionIndex;
+
+       sess.map((session,index)=>{
+         if(session.sessionId===id){
+           sessionFound = session;
+           sessionIndex = index;
+         }
+       });
+
+       if (!sessionFound) {
+         return res.status(404).json({
+           success: 'false',
+           message: 'session not found',
+         });
+       }
+
+      const mentor = dammy.find(mento=>mento.email===req.decodedToken.email);
+       const mySessions = sess.find(mySess=> mySess.mentorId === mentor.mentorId);
+      //  console.log(mySessions);
+
+       if(!mySessions){
+         return res.status(404).json({
+           success: 'false',
+           message: 'You are not the owner',
+         });
+       }
+
+       if (sessionFound.status!=="pending"){
+       return res.status(404).json({
+         success: 'false',
+         message: 'session was already responded',
+       });
+     }
+
+     const data = {
+       sessionId: id,
+       mentorId: sessionFound.mentorId,
+       menteeId: sessionFound.menteeId,
+       questions: sessionFound.questions,
+       menteeEmail:sessionFound.menteeEmail,
+       status: "reject"
+     };
+ 
+     sess.splice(sessionIndex, 1, data);
+ 
+     return res.status(201).json({
+       status: 201,
+       message: 'mentorship session request rejected',
+       data
+     });
+    }
+
+     // checking mentor
+   static mentor(req, res) {
+    dammy.map((mentor)=>{
+      if (req.decodedToken.email === mentor.email) {
+        if(mentor.role !== 'mentor'){
+          res.status(401).json({
+            message: 'Access not allowed, mentor Only',
+            email:'you are a ' + mentor.role +' and your email is '+ req.decodedToken.email,
+          });
+        }
+      }
+    })
+  }
+
+  // checking admin
+  static admin(req, res) {
+    dammy.map((admin)=>{
+      if (req.decodedToken.email === admin.email) {
+        if(admin.role !== 'admin'){
+          res.status(401).json({
+            message: 'Access not allowed, Admin Only',
+            email:'you are an ' + admin.role +' and your email is '+ req.decodedToken.email,
+          });
+        }
+      }
+    })
+  }
+
+   // checking mentee
+    static mentee(req, res) {
+      dammy.map((mentee)=>{
+        if (req.decodedToken.email === mentee.email) {
+          if(mentee.role !== 'mentee'){
+            res.status(401).json({
+              message: 'Access not allowed, mentee Only',
+              email:'you are a ' + mentee.role +' and your email is '+ req.decodedToken.email,
+            });
+          }
+        }
+      })
+    }
 
 
-
+     
 }
 
 export default freem;
