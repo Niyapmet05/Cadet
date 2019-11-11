@@ -216,7 +216,7 @@ describe('Testing getAllUsers function', () => {
     });
   });
 })
-
+/*
 //creating mentorship session
 describe('Testing acceptMentorship function',()=>{
   it('status should be 404 for non existing session', (done)=>{
@@ -252,3 +252,78 @@ describe('Testing acceptMentorship function',()=>{
     })
   })
 })
+
+//Get all sessions
+describe('Testing getAllSessions function', () => {
+  it('Status should be 200 for displaying sessions', (done) => {
+    
+    chai.request(app)
+    
+    .get(`/sessions`)
+    .set("token", token)
+    .end((err, res) => {
+      res.should.have.status(200);
+
+      done();
+    });
+  });
+})
+//Changer a user to a mentor
+
+describe('Testing acceptMentorship function', () => {
+  //session has a mentorId as the one in the body
+  it('Status should be 201 for own session', (done) => {
+    
+    chai.request(app)
+    
+    .patch(`/session/1`)
+    .set("token", "tokena")
+    .end((err, res) => {
+      res.should.have.status(201);
+
+      done();
+    });
+  });
+  //session has a different mentorId as the one in the body
+  it('Status should be 409 for others session', (done) => {
+    
+    chai.request(app)
+    
+    .patch(`/session/2`)
+    .set("token", "tokena")
+    .end((err, res) => {
+      res.should.have.status(409);
+
+      done();
+    });
+  });
+  
+  //responded session
+  it('Status should be 404 for a responded session', (done) => {
+    
+    chai.request(app)
+    
+    .patch(`/session/3`)
+    .set("token", "tokena")
+    .end((err, res) => {
+      res.should.have.status(404);
+
+      done();
+    });
+  });
+  
+  //innexisted session
+  it('Status should be 404 for a session which is not real', (done) => {
+    
+    chai.request(app)
+    
+    .patch(`/session/4`)
+    .set("token", "tokena")
+    .end((err, res) => {
+      res.should.have.status(404);
+
+      done();
+    });
+  });
+
+})*/

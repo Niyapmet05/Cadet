@@ -15,15 +15,15 @@ const users=[
     {
       id: 2,
       firstName: "Pascal",
-      lastName: "TUYISSHIME",
+      lastName: "TUYISHIME",
       email: "tuyishimepascal@gmail.com",
       password: "1985PT",
       address: "Kigali",
       bio: "engineer",
       occupation: "environmental",
       expertise: "world class",
-      role:"mentor",
-      mentorId : 2
+      role:"admin",
+      // mentorId : 2
     },
     { 
       id:3,

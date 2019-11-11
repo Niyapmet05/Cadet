@@ -3,7 +3,7 @@ const ses =  [
     {
       sessionId:1,
       questions:"How to create github repository",
-      mentorId: 2,
+      mentorId: 1,
       menteeId: 2,
       menteeEmail: "niyomurengeziaphrodis@gmail.com",
       status:"pending"
@@ -14,13 +14,13 @@ const ses =  [
       mentorId: 3,
       menteeId: 1,
       menteeEmail: "uwayoreka@gmail.com",
-      status:"accept"
+      status:"accepted"
     },
     {
       sessionId:3,
       questions:"Which steps followed to push local file in github repository",
       mentorId: 1,
-      menteeId: 3,
+      menteeId: 4,
       menteeEmail: "umuzigara@gmail.com",
       status:"rejected"
     },
