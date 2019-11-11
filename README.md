@@ -7,6 +7,14 @@
 # Free mentors developped by Aphrodis for exercising node app
 1) Sign up endpoint
 2) Sign in endpoint
-3) Change a mentor endpoint
+3) Admin can change auser to a mentor endpoint
 4) Get all mentors endpoint
 5) Get all users endpoint
+6) Create a mentorship session request with a mentor endpoint
+7) Accept a mentorship session request endpoint
+8) Decline a mentorship session request endpoint
+9) Optional endpoints
+    a) View all mentorship sessions endpoint
+    b) Review a mentor after a mentorship session endpoint
+    c) Get all sessions reviews endpoint
+    d) Delete a review deemed as inappropriate endpoint
